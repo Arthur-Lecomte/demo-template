@@ -4,6 +4,8 @@ Squelette Vite minimal, prêt à devenir une démo hébergée sur
 [arthurlecomte.fr](https://arthurlecomte.fr) sous `/demos/<slug>/`.
 Les règles du portfolio sont déjà câblées : chemins relatifs, lien de
 retour, clés `localStorage` préfixées, aucune dépendance externe.
+Le fichier `CLAUDE.md` guide l'IA qui travaille sur le projet (règles,
+git, definition of done) — le garder à jour.
 
 ## Développer
 
