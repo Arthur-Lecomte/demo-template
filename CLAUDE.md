@@ -26,6 +26,12 @@ publiable. Il arrive via le template `demo-template` ; adapte la section
   données. `localStorage` autorisé, clés préfixées par le slug du projet.
 - Chemins relatifs uniquement (`base: './'` dans `vite.config.js`, ne pas
   y toucher) ; garder le lien « Retour à la fiche du projet ».
+- **Rendu à la demande** : une scène immobile ne se redessine pas. Jamais
+  de boucle qui repeint à 60 i/s au repos (le GPU est partagé entre les
+  fenêtres : une démo inactive ne doit pas faire saccader une vidéo qui
+  tourne à côté). Drapeau « besoin de rendu » levé à chaque mutation
+  visuelle, rendu seulement s'il est levé ; respecter aussi
+  `prefers-reduced-motion`.
 - Assets : libre de droits ou fait maison, licences notées dans le README.
 - Un scan automatique au build du portfolio bloque toute infraction ; en
   cas de doute sur une règle, choisir l'option la plus stricte.
@@ -67,6 +73,8 @@ publiable. Il arrive via le template `demo-template` ; adapte la section
   dans `dist/` (aucune URL absolue ni domaine externe).
 - Zéro erreur console ; utilisable au clavier ; contrastes et textes
   alternatifs corrects (viser WCAG AA).
+- Démo au repos = zéro redessin, mesuré (compter les draw calls WebGL ou
+  les layouts sur 3 s d'inactivité : le total doit être 0).
 - Plus aucun « TODO » visible dans l'interface ; `<title>` et `<h1>`
   remplis ; README à jour (quoi, comment lancer, licences des assets).
 
