@@ -36,6 +36,76 @@ publiable. Il arrive via le template `demo-template` ; adapte la section
 - Un scan automatique au build du portfolio bloque toute infraction ; en
   cas de doute sur une règle, choisir l'option la plus stricte.
 
+## Charte d'interface
+
+But : on passe d'une démo à l'autre sans réapprendre l'interface. La charte
+unifie l'habillage, pas la disposition : chaque démo garde sa mise en page
+(page qui défile ou application plein écran) et place ses contrôles où
+c'est pertinent. Le `src/style.css` de ce template est l'implémentation de
+référence.
+
+### Thème
+
+- Thème sombre fixe : `color-scheme: dark` dans `:root`.
+- Tokens obligatoires, mêmes noms et valeurs que le mode sombre du site :
+  `--color-bg: #101216` ; `--color-text: #e8eaee` ; `--color-muted: #9aa0ab` ;
+  `--color-surface: #181b21` ; `--color-border: #2a2e36` ;
+  `--color-accent: #8ab0ff` ; `--color-accent-contrast: #0c1f4d` ;
+  `--radius-sm: 6px` ; `--radius-md: 8px`.
+- L'habillage (fond de page, panneaux, boutons, liens, textes, bordures,
+  curseurs) ne consomme que ces tokens. Variables locales dérivées
+  autorisées si nécessaires (nommées en anglais, p. ex. un fond translucide
+  dérivé de `--color-surface` pour un panneau flottant au-dessus du canvas).
+- Les couleurs de la **scène** — tout ce que dessine le canvas — restent
+  libres, dans des variables `--scene-*` ou dans le JS : c'est l'identité
+  de la démo.
+- Police : `system-ui, sans-serif` ; `line-height: 1.5` sur `body`.
+
+### Structure
+
+- `<p class="tagline">` sous le `<h1>` : une phrase qui dit ce qu'on peut
+  faire (archétype « document »). En plein écran (archétype « app »), la
+  tagline ouvre le volet d'aide à la place (premier paragraphe du dialog).
+- Aide « Comment ça marche ? » obligatoire : `<details class="about">`
+  fermé par défaut (document) ou `<dialog>` ouvert par un bouton « ? »
+  (app). Même libellé partout, exactement « Comment ça marche ? » avec un
+  espace insécable avant le ? (`&nbsp;` dans le HTML).
+- `<head>` : `<meta name="description">` présent ; `<title>` = « Nom —
+  sous-titre ».
+- Footer hors de `<main>`, centré, lien « ← Retour à la fiche du projet »
+  en `--color-muted`. Ne jamais toucher au `href` du lien de retour.
+
+### Contrôles
+
+- Libellés standard : « Lecture » / « Pause » — le bouton affiche l'action
+  qu'il déclenche et alterne son libellé, sans `aria-pressed` (le libellé
+  porte l'état). « Réinitialiser » = revenir à l'état de départ.
+  « Effacer » = vider ce que le visiteur a dessiné ou saisi. Les toggles à
+  libellé fixe (outils, cases) portent `aria-pressed` ou sont de vraies
+  checkboxes.
+- Pas d'emoji dans les titres et libellés ; les symboles porteurs de sens
+  (←, ⟲, ⟳) restent permis avec un libellé accessible.
+- Slider : `<label>Texte <input type="range"> <output>…</output></label>`,
+  dans cet ordre ; `accent-color: var(--color-accent)` ; `<output>` dès que
+  la valeur affichée aide.
+- Boutons : fond `--color-surface`, texte `--color-text`, bordure
+  `--color-border`, rayon `--radius-sm`, hauteur de cible >= 44px
+  (`min-height`, ranges compris) ; survol =
+  `border-color: var(--color-muted)` ; bouton principal (classe `primary`) :
+  fond `--color-accent`, texte `--color-accent-contrast`.
+- Focus : `:focus-visible { outline: 2px solid var(--color-accent);
+  outline-offset: 2px; }` universel (remplace les listes d'éléments).
+- Panneaux / volets (`details.about`, `dialog`, panneaux de contrôle) :
+  fond `--color-surface`, bordure `--color-border`, rayon `--radius-md`.
+
+### Divers
+
+- `* { box-sizing: border-box }` partout.
+- `[hidden] { display: none !important }` si l'attribut `hidden` est utilisé.
+- `prefers-reduced-motion` respecté : rien ne bouge sans action du
+  visiteur — une simulation qui tourne en continu démarre en pause dans ce
+  mode ; transitions décoratives coupées.
+
 ## Git
 
 - Plus aucun commit direct sur `main` une fois le projet lancé. Une
@@ -77,6 +147,7 @@ publiable. Il arrive via le template `demo-template` ; adapte la section
   les layouts sur 3 s d'inactivité : le total doit être 0).
 - Plus aucun « TODO » visible dans l'interface ; `<title>` et `<h1>`
   remplis ; README à jour (quoi, comment lancer, licences des assets).
+- Conformité à la charte d'interface ci-dessus vérifiée.
 
 ## Intégration au portfolio
 
